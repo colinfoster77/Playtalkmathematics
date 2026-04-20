@@ -1,0 +1,223 @@
+/* --- Color Palette derived from Logo --- */
+:root {
+  --navy-blue: #1e2a45;
+  --gold-mustard: #d49c44;
+  --light-bg: #fdfbf7; 
+  --divider-color: #e2e2e2;
+}
+
+/* --- Typography & General Styling --- */
+body {
+  color: var(--navy-blue);
+  font-family: "Nunito", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--navy-blue);
+  font-weight: 700;
+}
+
+a {
+  color: var(--gold-mustard);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: var(--navy-blue);
+}
+
+/* --- Navbar & Large Logo --- */
+.navbar {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  border-bottom: 4px solid var(--gold-mustard);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.navbar-brand img {
+  max-height: 90px !important; 
+  height: 90px !important;
+  width: auto;
+}
+
+/* --- Split Page Layout --- */
+.split-container {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 124px); 
+}
+
+.split-activity {
+  width: 50%;
+  padding: 3rem 4rem;
+  background-color: #ffffff;
+  border-right: 3px dashed var(--gold-mustard);
+}
+
+.split-research {
+  width: 50%;
+  padding: 3rem 4rem;
+  background-color: var(--light-bg);
+}
+
+header#title-block-header {
+  padding: 3rem 4rem 1rem 4rem;
+  background-color: #ffffff;
+}
+
+/* --- Homepage Tilted Square (Diamond) Graphic --- */
+.pillars-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px; 
+  max-width: 850px; 
+  margin: 3rem auto;
+  aspect-ratio: 1 / 1; 
+  position: relative;
+  z-index: 1;
+  overflow: visible !important; 
+}
+
+.pillar-triangle {
+  background-color: transparent !important;
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  overflow: visible !important; 
+  z-index: 1;
+}
+
+.pillar-triangle::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--gold-mustard);
+  z-index: -1; 
+}
+
+.pillar-content {
+  display: flex;
+  flex-direction: column;
+  width: 85%; 
+}
+
+.pillar-content h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--navy-blue);
+  font-weight: 800;
+  font-size: 1.3rem;
+}
+
+.pillar-content p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* --- Quadrant Logic --- */
+.tl::before { clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+.tl { justify-content: flex-end; align-items: flex-end; text-align: right; padding: 35% 8% 8% 30%; }
+
+.tr::before { clip-path: polygon(0 0, 100% 100%, 0 100%); }
+.tr { justify-content: flex-start; align-items: flex-end; text-align: left; padding: 35% 30% 8% 8%; }
+
+.bl::before { clip-path: polygon(100% 100%, 100% 0, 0 0); }
+.bl { justify-content: flex-end; align-items: flex-start; text-align: right; padding: 8% 8% 35% 30%; }
+
+.br::before { clip-path: polygon(0 100%, 100% 0, 0 0); }
+.br { justify-content: flex-start; align-items: flex-start; text-align: left; padding: 8% 30% 35% 8%; }
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 992px) {
+  .split-container { flex-direction: column; }
+  .split-activity, .split-research { width: 100%; border-right: none; padding: 2rem; }
+  .split-activity { border-bottom: 3px dashed var(--gold-mustard); }
+  header#title-block-header { padding: 2rem 2rem 0 2rem; }
+  
+  .page-layout-custom > p { margin-left: 2rem; margin-right: 2rem; }
+  .pillars-container { max-width: min(850px, calc(100vw - 4rem)); }
+}
+
+@media (max-width: 768px) {
+  .pillars-container { display: flex; flex-direction: column; aspect-ratio: auto; padding: 0 1.5rem; }
+  .pillar-triangle::before { clip-path: none !important; border-radius: 12px; }
+  .pillar-triangle { padding: 2rem !important; }
+  .pillar-content { width: 100%; text-align: left !important; align-items: flex-start !important; }
+}
+
+/* --- Home Page Alignment Fix --- */
+.page-layout-custom > p {
+  margin-left: 4rem;
+  margin-right: 4rem;
+}
+
+.pillars-container {
+  max-width: min(850px, calc(100vw - 8rem));
+}
+
+/* --- Global Quarto Footer Styling --- */
+footer.footer {
+  padding: 2.5rem 0;
+  color: var(--navy-blue);
+  font-size: 0.85rem;
+}
+
+footer.footer .nav-footer {
+  max-width: calc(100vw - 8rem);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo-container img {
+  max-height: 65px;
+  width: auto;
+  display: block;
+}
+
+footer.footer a { font-weight: normal; text-decoration: underline; color: var(--navy-blue); }
+
+/* --- FOOTNOTE STACKING & VISIBILITY FIX --- */
+
+.footnote-ref {
+  color: var(--navy-blue) !important;
+  text-decoration: none;
+  font-weight: 800;
+  padding: 0 2px;
+}
+
+.footnote-ref:hover { color: #ffffff !important; }
+
+/* Forces the hovered triangle and its popup to the front */
+.pillar-triangle:hover {
+  z-index: 1000 !important;
+}
+
+.tippy-popper, .tippy-box, [id^="tippy-"] {
+  z-index: 9999999999 !important;
+  visibility: visible !important;
+}
+
+.tippy-box {
+  background-color: #ffffff !important;
+  color: var(--navy-blue) !important;
+  border: 1px solid var(--navy-blue) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2) !important;
+}
+
+/* RESETTING HOVER TEXT TO NORMAL WEIGHT */
+.tippy-content { 
+  font-weight: 400 !important; 
+  padding: 12px !important; 
+  font-size: 0.9rem;
+}
+
+.footnotes {
+  margin-top: 4rem;
+  padding: 2rem 4rem;
+  border-top: 1px solid var(--divider-color);
+  font-size: 0.85rem;
+  color: var(--navy-blue);
+}
