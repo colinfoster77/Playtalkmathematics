@@ -1,0 +1,49 @@
+\documentclass[tikz, border=20pt]{standalone}
+\usepackage{graphicx}
+
+% Define the specific colors from the image
+\definecolor{navytext}{HTML}{122045}    % Deep navy for text
+\definecolor{faceleft}{HTML}{D6A054}    % Lighter gold for the left face
+\definecolor{faceright}{HTML}{C48B43}   % Darker gold for the right face
+\definecolor{baseleft}{HTML}{A4712F}    % Shadow gold for the bottom left underside
+\definecolor{baseright}{HTML}{855820}   % Deep shadow for the bottom right underside
+
+\begin{document}
+\begin{tikzpicture}[font=\sffamily]
+
+% --- TETRAHEDRON COORDINATES ---
+\coordinate (Top) at (0, 4);
+\coordinate (Left) at (-3, 0.5);
+\coordinate (Right) at (3, 0.5);
+\coordinate (Front) at (0, 0);
+\coordinate (Bottom) at (0, -0.8);
+
+% --- DRAW 3D FACES ---
+
+% Bottom underside faces (gives the 3D thickness at the base)
+\fill[baseleft] (Left) -- (Bottom) -- (Front) -- cycle;
+\fill[baseright] (Right) -- (Bottom) -- (Front) -- cycle;
+
+% Main front faces
+\fill[faceleft] (Left) -- (Front) -- (Top) -- cycle;
+\fill[faceright] (Right) -- (Front) -- (Top) -- cycle;
+
+% Subtle edge highlights to enhance the 3D lighting
+\draw[faceleft!70!white, line width=1.5pt, opacity=0.7] (Front) -- (Top);
+\draw[faceleft!40!white, line width=0.8pt, opacity=0.5] (Left) -- (Top);
+
+% --- TEXT MAPPED TO FACES ---
+
+% "play" placed strictly on the left face, angled UPWARDS (left to right)
+\node[text=navytext, scale=3.2, rotate=20, xslant=0.25] at (-1.3, 1.2) {\bfseries{play}};
+
+% "think" placed strictly on the right face, angled DOWNWARDS (left to right)
+\node[text=navytext, scale=3.2, rotate=-20, xslant=-0.25] at (1.3, 1.2) {\bfseries{think}};
+
+% --- BASE BRANDING TEXT ---
+
+% MATHEMATICS (Subtext)
+\node[text=navytext, scale=1.8] at (0, -2.2) {\bfseries{M A T H E M A T I C S}};
+
+\end{tikzpicture}
+\end{document}

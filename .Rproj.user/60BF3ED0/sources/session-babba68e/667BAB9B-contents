@@ -1,0 +1,56 @@
+\documentclass[tikz, border=20pt]{standalone}
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+% Define bold, friendly colors for a nursery
+\definecolor{poppurple}{HTML}{7209B7} % A rich, modern purple
+\definecolor{popblue}{HTML}{118AB2}   % A bright, clean turquoise-blue
+\definecolor{poporange}{HTML}{FF9F1C} % A warm, energetic orange
+\definecolor{popdark}{HTML}{073B4C}   % A deep, soft navy for main text
+
+\begin{document}
+\begin{tikzpicture}[font=\sffamily]
+
+% Symmetrical geometric shapes for "play" and "think"
+% They are like friendly, modern petals or blocks.
+\draw[fill=poppurple, draw=poppurple, line width=1pt] 
+    (-1.6, 1.4) to[out=105, in=180] (-0.8, 2.0) to[out=0, in=75] (0, 1.4)
+    to[out=-75, in=0] (-0.8, 0.8) to[out=180, in=-105] cycle;
+
+\draw[fill=popblue, draw=popblue, line width=1pt] 
+    (1.6, 1.4) to[out=75, in=0] (0.8, 2.0) to[out=180, in=105] (0, 1.4)
+    to[out=-105, in=180] (0.8, 0.8) to[out=0, in=-75] cycle;
+
+% A subtle central connector element
+\draw[poporange!80, line width=2pt, opacity=0.8] (-0.3, 1.4) to[out=20, in=160] (0.3, 1.4);
+\fill[poporange!80, opacity=0.8] (0, 1.4) circle (0.15);
+
+% Main bold brand text placed symmetrically
+\node[text=poppurple] at (-0.8, 1.4) {\scalebox{2.8}{\textbf{play}}};
+\node[text=popblue] at (0.8, 1.4) {\scalebox{2.8}{\textbf{think}}};
+
+% Small decorative dot for playfulness
+\fill[poporange] (0.6, 2.2) circle (0.08);
+\fill[poppurple] (-1.8, 1.9) circle (0.06);
+\fill[popblue] (1.8, 1.9) circle (0.06);
+
+% --- BASE BRANDING ---
+
+% Wide-spaced "MATHEMATICS" in soft navy
+% Letter spacing is achieved with \hspace{} for simple compilation.
+\node[text=popdark] at (0, 0) {\scalebox{1.5}{%
+    \textbf{M}\hspace{0.2em}%
+    \textbf{A}\hspace{0.2em}%
+    \textbf{T}\hspace{0.2em}%
+    \textbf{H}\hspace{0.2em}%
+    \textbf{E}\hspace{0.2em}%
+    \textbf{M}\hspace{0.2em}%
+    \textbf{A}\hspace{0.2em}%
+    \textbf{T}\hspace{0.2em}%
+    \textbf{I}\hspace{0.2em}%
+    \textbf{C}\hspace{0.2em}%
+    \textbf{S}%
+}};
+
+\end{tikzpicture}
+\end{document}

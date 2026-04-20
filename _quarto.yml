@@ -1,0 +1,42 @@
+project:
+  type: website
+
+website:
+  title: "Play Talk Mathematics"
+  search: 
+    location: navbar
+    type: textbox
+  navbar:
+    logo: "Logo.png" 
+    background: "#ffffff"
+    foreground: "#1e2a45" # Deep Navy
+    left:
+      - href: index.qmd
+        text: Home
+      - href: activities.qmd
+        text: Activities
+
+  # Global Footer Configuration
+  page-footer:
+    background: "#fdfbf7" # Matches your light-bg
+    border: true
+    left: |
+      <div class="footer-logo-container">
+        <a href="https://ceml.ac.uk/" target="_blank" rel="noopener">
+          <img src="CEML-Logo.png" alt="CEML Logo">
+        </a>
+      </div>
+    right: |
+      © 2026 **Play Talk Mathematics**. <br>
+      This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+# Customizes search box text
+language:
+  search-text-placeholder: "Search..."
+
+format:
+  html:
+    theme: default
+    css: styles.css
+    page-layout: custom 
+    toc: false

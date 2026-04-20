@@ -1,0 +1,47 @@
+---
+title: "Welcome to Play Talk Mathematics"
+---
+
+Welcome to our website for early-years practitioners!
+
+Young children learn mathematics best when they are actively engaged in mathematically rich activities. Our approach is grounded in research and designed to be practical, focusing on four key principles of early mathematical development shown below.
+
+::::::::::: pillars-container
+:::: {.pillar-triangle .tl}
+::: pillar-content
+### Play
+
+Through guided play[^1], children learn about mathematics in the world around them. These tasks provide rich opportunities for enjoyable exploration in a variety of stimulating scenarios.<br><br>
+:::
+::::
+
+:::: {.pillar-triangle .tr}
+::: pillar-content
+### Talk
+
+Children make sense[^2] of mathematics through talking about what they are sensing, thinking and doing. These tasks can be scaffolded to support children’s problem solving and metacognition.
+:::
+::::
+
+:::: {.pillar-triangle .bl}
+::: pillar-content
+### Adapt
+
+Children’s mathematical needs differ depending on their prior experiences. These tasks can be adapted to provide optimal challenge for any child.
+:::
+::::
+
+:::: {.pillar-triangle .br}
+::: pillar-content
+### Manipulate
+
+Mathematics is active and involves manipulating objects[^3] and physically doing things. These tasks involve children moving themselves or other objects around.
+:::
+::::
+:::::::::::
+
+These tasks aim to reveal age 3-6 children’s current mathematical understandings and support their ongoing development. To see how these principles work in practice, explore our activities.
+
+[^1]: Skene, K., O'Farrelly, C. M., Byrne, E. M., Kirby, N., Stevens, E. C., & Ramchandani, P. G. (2021). Can guidance help? A systematic review and meta-analysis of guided play to support children’s learning.
+[^2]: Placeholder: Research on 'making sense' in early years (e.g., Askew or Thompson).
+[^3]: Clements, D. H., & Sarama, J. (2021). Learning and Teaching Early Math: The Learning Trajectories Approach (p. 383). See also Hughes (1981), Nunes and Bryant (2009).
