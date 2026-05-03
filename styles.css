@@ -29,15 +29,15 @@ a:hover {
 
 /* --- Navbar & Large Logo --- */
 .navbar {
-  padding-top: 15px !important;
-  padding-bottom: 15px !important;
+  padding-top: 20px !important; /* Increased to accommodate larger logo */
+  padding-bottom: 20px !important; /* Increased to accommodate larger logo */
   border-bottom: 4px solid var(--gold-mustard);
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
 .navbar-brand img {
-  max-height: 90px !important; 
-  height: 90px !important;
+  max-height: 120px !important; /* Increased from 90px */
+  height: 120px !important;    /* Increased from 90px */
   width: auto;
 }
 
@@ -220,4 +220,11 @@ footer.footer a { font-weight: normal; text-decoration: underline; color: var(--
   border-top: 1px solid var(--divider-color);
   font-size: 0.85rem;
   color: var(--navy-blue);
+}
+
+/* ==========================================================================
+   MAIN TEXT COLOR
+   ========================================================================== */
+body, main.content p, main.content li {
+  color: #000000 !important; /* Use #000000 for pure black, or #333333 for dark grey */
 }

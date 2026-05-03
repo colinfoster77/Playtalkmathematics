@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="113.386pt" height="113.386pt" viewBox="0 0 113.386 113.386">
+<path fill-rule="nonzero" fill="rgb(24.940491%, 18.351746%, 7.998657%)" fill-opacity="1" d="M 5.667969 87.875 L 56.691406 92.125 L 107.71875 87.875 L 56.691406 83.621094 Z M 5.667969 87.875 "/>
+<path fill-rule="nonzero" fill="rgb(89.039612%, 74.761963%, 52.334595%)" fill-opacity="1" d="M 5.667969 87.875 L 56.691406 83.621094 L 56.691406 22.675781 Z M 5.667969 87.875 "/>
+<path fill-rule="nonzero" fill="rgb(78.979492%, 58.114624%, 25.332642%)" fill-opacity="1" d="M 107.71875 87.875 L 56.691406 83.621094 L 56.691406 22.675781 Z M 107.71875 87.875 "/>
+<path fill="none" stroke-width="0.79701" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M -51.025031 -0.001 L -0.00159375 -4.251 L 51.02575 -0.001 " transform="matrix(1, 0, 0, -1, 56.693, 87.874)"/>
+<path fill="none" stroke-width="0.79701" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M -51.025031 -0.001 L -0.00159375 4.252906 L 51.02575 -0.001 " transform="matrix(1, 0, 0, -1, 56.693, 87.874)"/>
+<path fill="none" stroke-width="0.79701" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M -51.025031 -0.001 L -0.00159375 65.198219 " transform="matrix(1, 0, 0, -1, 56.693, 87.874)"/>
+<path fill="none" stroke-width="0.79701" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M 51.02575 -0.001 L -0.00159375 65.198219 " transform="matrix(1, 0, 0, -1, 56.693, 87.874)"/>
+<path fill="none" stroke-width="0.79701" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(0%, 0%, 0%)" stroke-opacity="1" stroke-miterlimit="10" d="M -0.00159375 4.252906 L -0.00159375 65.198219 " transform="matrix(1, 0, 0, -1, 56.693, 87.874)"/>
+</svg>
