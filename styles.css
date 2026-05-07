@@ -71,7 +71,7 @@ header#title-block-header {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px; 
-  max-width: 2000px; 
+  max-width: 1000px; 
   margin: 3rem auto;
   aspect-ratio: 1 / 1; 
   position: relative;
