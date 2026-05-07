@@ -153,9 +153,10 @@ header#title-block-header {
 }
 
 .pillars-container {
-  /* Increased from 850px to make the triangles larger */
-  max-width: min(1150px, calc(100vw - 8rem)); 
+  width: 100%; /* This is the missing piece! It forces the grid to stretch. */
+  max-width: min(1250px, calc(100vw - 8rem)); /* Tweak 1050px to your liking */
 }
+
 
 /* --- Global Quarto Footer Styling --- */
 footer.footer {
