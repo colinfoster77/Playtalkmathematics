@@ -154,7 +154,7 @@ header#title-block-header {
 
 .pillars-container {
   width: 100%; /* This is the missing piece! It forces the grid to stretch. */
-  max-width: min(1250px, calc(100vw - 8rem)); /* Tweak 1050px to your liking */
+  max-width: min(1100px, calc(100vw - 8rem)); /* Tweak 1050px to your liking */
 }
 
 
