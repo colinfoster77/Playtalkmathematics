@@ -153,7 +153,8 @@ header#title-block-header {
 }
 
 .pillars-container {
-  max-width: min(850px, calc(100vw - 8rem));
+  /* Increased from 850px to make the triangles larger */
+  max-width: min(1150px, calc(100vw - 8rem)); 
 }
 
 /* --- Global Quarto Footer Styling --- */
