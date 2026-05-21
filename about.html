@@ -610,7 +610,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </footer>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+function deduplicateFootnotes() {
   // 1. Locate the footnotes container
   const footnoteContainer = document.querySelector("section.footnotes, .footnotes");
   if (!footnoteContainer) return;
@@ -627,28 +627,29 @@ document.addEventListener("DOMContentLoaded", function() {
   // 2. Find and merge duplicate footnote items
   items.forEach((li) => {
     const clone = li.cloneNode(true);
-    const backLink = clone.querySelector(".footnote-back, [role='doc-backlink']");
-    if (backLink) backLink.remove();
-    const cleanText = clone.textContent.trim();
+    clone.querySelectorAll("a").forEach(a => a.remove());
+    const cleanText = clone.textContent.replace(/[^a-zA-Z0-9]/g, "").toLowerCase().trim();
+
+    if (!cleanText) {
+      li.remove();
+      return;
+    }
 
     if (seenNotes[cleanText]) {
-      // Duplicate found: Map its ID to the original footnote ID
       const originalId = seenNotes[cleanText].id;
       adjustmentMap[li.id] = originalId;
       
-      // Combine the back-link arrows so readers can jump back to either spot
       const originalLi = seenNotes[cleanText].li;
-      const originalBackLink = originalLi.querySelector(".footnote-back, [role='doc-backlink']");
-      const currentBackLink = li.querySelector(".footnote-back, [role='doc-backlink']");
-      if (currentBackLink && originalBackLink) {
+      const currentBackLink = li.querySelector(".footnote-back, [role='doc-backlink'], a");
+      if (currentBackLink) {
+        const originalTarget = originalLi.querySelector("p") || originalLi;
         const newBackLink = currentBackLink.cloneNode(true);
-        originalBackLink.parentNode.appendChild(document.createTextNode(" "));
-        originalBackLink.parentNode.appendChild(newBackLink);
+        originalTarget.appendChild(document.createTextNode(" "));
+        originalTarget.appendChild(newBackLink);
       }
       
-      li.remove(); // Delete the duplicate entry from the bottom list
+      li.remove();
     } else {
-      // Unique note found: Track it
       uniqueCount++;
       seenNotes[cleanText] = { id: li.id, li: li };
       idToNewNumber[li.id] = uniqueCount;
@@ -656,25 +657,36 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // 3. Fix the inline numbers and links in the body copy
-  const refs = document.querySelectorAll("a.footnote-ref, [role='doc-noteref']");
+  // Targets absolute matching of inline links (e.g., #fn1, #fn2) while ignoring back-links
+  const refs = Array.from(document.querySelectorAll("a")).filter(a => {
+    const href = a.getAttribute("href");
+    return href && /^#fn\d+$/.test(href);
+  });
+
   refs.forEach((ref) => {
     const href = ref.getAttribute("href");
-    if (!href || !href.startsWith("#")) return;
     const targetId = href.substring(1);
 
+    let newNumber = null;
     if (adjustmentMap[targetId]) {
-      // Point duplicate links to the single original footnote
       const origId = adjustmentMap[targetId];
       ref.setAttribute("href", "#" + origId);
-      const sup = ref.querySelector("sup");
-      if (sup) sup.textContent = idToNewNumber[origId];
+      newNumber = idToNewNumber[origId];
     } else if (idToNewNumber[targetId]) {
-      // Re-number unique footnotes tightly (1, 2, 3...)
-      const sup = ref.querySelector("sup");
-      if (sup) sup.textContent = idToNewNumber[targetId];
+      newNumber = idToNewNumber[targetId];
+    }
+
+    if (newNumber !== null) {
+      // Target inner superscript/span elements or the text node itself
+      const innerElement = ref.querySelector("sup, span") || ref;
+      innerElement.textContent = newNumber;
     }
   });
-});
+}
+
+// Double-hook to beat Quarto's internal post-rendering script lifecycles
+document.addEventListener("DOMContentLoaded", deduplicateFootnotes);
+window.addEventListener("load", deduplicateFootnotes);
 </script>
 
 
