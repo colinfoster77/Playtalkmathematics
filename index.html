@@ -612,6 +612,73 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>
   </div>
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 1. Locate the footnotes container
+  const footnoteContainer = document.querySelector("section.footnotes, .footnotes");
+  if (!footnoteContainer) return;
+  
+  const ol = footnoteContainer.querySelector("ol");
+  if (!ol) return;
+
+  const items = Array.from(ol.querySelectorAll("li"));
+  const seenNotes = {};
+  const adjustmentMap = {};
+  const idToNewNumber = {};
+  let uniqueCount = 0;
+
+  // 2. Find and merge duplicate footnote items
+  items.forEach((li) => {
+    const clone = li.cloneNode(true);
+    const backLink = clone.querySelector(".footnote-back, [role='doc-backlink']");
+    if (backLink) backLink.remove();
+    const cleanText = clone.textContent.trim();
+
+    if (seenNotes[cleanText]) {
+      // Duplicate found: Map its ID to the original footnote ID
+      const originalId = seenNotes[cleanText].id;
+      adjustmentMap[li.id] = originalId;
+      
+      // Combine the back-link arrows so readers can jump back to either spot
+      const originalLi = seenNotes[cleanText].li;
+      const originalBackLink = originalLi.querySelector(".footnote-back, [role='doc-backlink']");
+      const currentBackLink = li.querySelector(".footnote-back, [role='doc-backlink']");
+      if (currentBackLink && originalBackLink) {
+        const newBackLink = currentBackLink.cloneNode(true);
+        originalBackLink.parentNode.appendChild(document.createTextNode(" "));
+        originalBackLink.parentNode.appendChild(newBackLink);
+      }
+      
+      li.remove(); // Delete the duplicate entry from the bottom list
+    } else {
+      // Unique note found: Track it
+      uniqueCount++;
+      seenNotes[cleanText] = { id: li.id, li: li };
+      idToNewNumber[li.id] = uniqueCount;
+    }
+  });
+
+  // 3. Fix the inline numbers and links in the body copy
+  const refs = document.querySelectorAll("a.footnote-ref, [role='doc-noteref']");
+  refs.forEach((ref) => {
+    const href = ref.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+    const targetId = href.substring(1);
+
+    if (adjustmentMap[targetId]) {
+      // Point duplicate links to the single original footnote
+      const origId = adjustmentMap[targetId];
+      ref.setAttribute("href", "#" + origId);
+      const sup = ref.querySelector("sup");
+      if (sup) sup.textContent = idToNewNumber[origId];
+    } else if (idToNewNumber[targetId]) {
+      // Re-number unique footnotes tightly (1, 2, 3...)
+      const sup = ref.querySelector("sup");
+      if (sup) sup.textContent = idToNewNumber[targetId];
+    }
+  });
+});
+</script>
 
 
 
