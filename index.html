@@ -660,14 +660,15 @@ function deduplicateFootnotes() {
   });
 
   // 3. Fix the inline numbers and links in the body copy
-  // Targets absolute matching of inline links (e.g., #fn1, #fn2) while ignoring back-links
-  const refs = Array.from(document.querySelectorAll("a")).filter(a => {
-    const href = a.getAttribute("href");
-    return href && /^#fn\d+$/.test(href);
-  });
+  // Grabs any link starting with "#fn" to catch absolute variations (e.g., #fn2, #fn-2)
+  const refs = document.querySelectorAll('a[href^="#fn"]');
 
   refs.forEach((ref) => {
+    // Ignore back-links at the bottom of the page
+    if (ref.closest('section.footnotes, .footnotes')) return;
+
     const href = ref.getAttribute("href");
+    if (!href) return;
     const targetId = href.substring(1);
 
     let newNumber = null;
@@ -680,16 +681,20 @@ function deduplicateFootnotes() {
     }
 
     if (newNumber !== null) {
-      // Target inner superscript/span elements or the text node itself
-      const innerElement = ref.querySelector("sup, span") || ref;
-      innerElement.textContent = newNumber;
+      // Force update on the element text and any nested elements (like <sup> or <span>)
+      ref.textContent = newNumber;
+      const innerElements = ref.querySelectorAll("sup, span");
+      innerElements.forEach(el => el.textContent = newNumber);
     }
   });
 }
 
-// Double-hook to beat Quarto's internal post-rendering script lifecycles
+// Run immediately, on load events, and a few times shortly after to beat Quarto's layout routines
 document.addEventListener("DOMContentLoaded", deduplicateFootnotes);
 window.addEventListener("load", deduplicateFootnotes);
+setTimeout(deduplicateFootnotes, 100);
+setTimeout(deduplicateFootnotes, 500);
+setTimeout(deduplicateFootnotes, 1000);
 </script>
 
 
