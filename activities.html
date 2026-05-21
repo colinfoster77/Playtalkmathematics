@@ -571,87 +571,96 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </footer>
 <script>
 function deduplicateFootnotes() {
-  // 1. Locate the footnotes container
-  const footnoteContainer = document.querySelector("section.footnotes, .footnotes");
-  if (!footnoteContainer) return;
-  
-  const ol = footnoteContainer.querySelector("ol");
-  if (!ol) return;
+  // Setup persistent storage to survive Quarto resetting the DOM
+  window.quartoFootnoteMaps = window.quartoFootnoteMaps || {
+    adjustmentMap: {},
+    idToNewNumber: {},
+    initialized: false
+  };
 
-  const items = Array.from(ol.querySelectorAll("li"));
-  const seenNotes = {};
-  const adjustmentMap = {};
-  const idToNewNumber = {};
-  let uniqueCount = 0;
+  // Step 1: Build the map and deduplicate the list at the bottom ONLY ONCE
+  if (!window.quartoFootnoteMaps.initialized) {
+    const footnoteContainer = document.querySelector("section.footnotes, .footnotes");
+    if (!footnoteContainer) return;
+    const ol = footnoteContainer.querySelector("ol");
+    if (!ol) return;
 
-  // 2. Find and merge duplicate footnote items
-  items.forEach((li) => {
-    const clone = li.cloneNode(true);
-    clone.querySelectorAll("a").forEach(a => a.remove());
-    const cleanText = clone.textContent.replace(/[^a-zA-Z0-9]/g, "").toLowerCase().trim();
+    const items = Array.from(ol.querySelectorAll("li"));
+    if (items.length === 0) return;
 
-    if (!cleanText) {
-      li.remove();
-      return;
-    }
+    const seenText = {};
+    let uniqueCount = 0;
 
-    if (seenNotes[cleanText]) {
-      const originalId = seenNotes[cleanText].id;
-      adjustmentMap[li.id] = originalId;
-      
-      const originalLi = seenNotes[cleanText].li;
-      const currentBackLink = li.querySelector(".footnote-back, [role='doc-backlink'], a");
-      if (currentBackLink) {
-        const originalTarget = originalLi.querySelector("p") || originalLi;
-        const newBackLink = currentBackLink.cloneNode(true);
-        originalTarget.appendChild(document.createTextNode(" "));
-        originalTarget.appendChild(newBackLink);
+    items.forEach((li) => {
+      const clone = li.cloneNode(true);
+      clone.querySelectorAll("a").forEach(a => a.remove());
+      const cleanText = clone.textContent.replace(/[^a-zA-Z0-9]/g, "").toLowerCase().trim();
+
+      if (!cleanText) {
+        li.remove();
+        return;
       }
-      
-      li.remove();
-    } else {
-      uniqueCount++;
-      seenNotes[cleanText] = { id: li.id, li: li };
-      idToNewNumber[li.id] = uniqueCount;
-    }
-  });
 
-  // 3. Fix the inline numbers and links in the body copy
-  // Grabs any link starting with "#fn" to catch absolute variations (e.g., #fn2, #fn-2)
-  const refs = document.querySelectorAll('a[href^="#fn"]');
+      if (seenText[cleanText]) {
+        // Duplicate Found: Store mapping and merge backlinks
+        const originalId = seenText[cleanText].id;
+        window.quartoFootnoteMaps.adjustmentMap[li.id] = originalId;
+        
+        const originalLi = seenText[cleanText].li;
+        const currentBackLink = li.querySelector(".footnote-back, [role='doc-backlink'], a[href*='fnref']");
+        if (currentBackLink) {
+          const originalTarget = originalLi.querySelector("p") || originalLi;
+          const newBackLink = currentBackLink.cloneNode(true);
+          originalTarget.appendChild(document.createTextNode(" "));
+          originalTarget.appendChild(newBackLink);
+        }
+        li.remove();
+      } else {
+        // Unique Found: Increment counter
+        uniqueCount++;
+        seenText[cleanText] = { id: li.id, li: li };
+        window.quartoFootnoteMaps.idToNewNumber[li.id] = uniqueCount;
+        li.value = uniqueCount; // Force list number styling
+      }
+    });
+    window.quartoFootnoteMaps.initialized = true;
+  }
 
+  // Step 2: Use the cached maps to continuously fix the inline text
+  const refs = document.querySelectorAll("a[role='doc-noteref'], a.footnote-ref, a[href*='#fn']");
   refs.forEach((ref) => {
-    // Ignore back-links at the bottom of the page
-    if (ref.closest('section.footnotes, .footnotes')) return;
+    if (ref.closest("section.footnotes, .footnotes")) return;
 
-    const href = ref.getAttribute("href");
-    if (!href) return;
-    const targetId = href.substring(1);
+    const href = ref.getAttribute("href") || "";
+    const hashIndex = href.indexOf('#');
+    if (hashIndex === -1) return;
+    const targetId = href.substring(hashIndex + 1);
 
     let newNumber = null;
-    if (adjustmentMap[targetId]) {
-      const origId = adjustmentMap[targetId];
-      ref.setAttribute("href", "#" + origId);
-      newNumber = idToNewNumber[origId];
-    } else if (idToNewNumber[targetId]) {
-      newNumber = idToNewNumber[targetId];
+    if (window.quartoFootnoteMaps.adjustmentMap[targetId]) {
+      const origId = window.quartoFootnoteMaps.adjustmentMap[targetId];
+      ref.setAttribute("href", href.substring(0, hashIndex) + "#" + origId);
+      newNumber = window.quartoFootnoteMaps.idToNewNumber[origId];
+    } else if (window.quartoFootnoteMaps.idToNewNumber[targetId]) {
+      newNumber = window.quartoFootnoteMaps.idToNewNumber[targetId];
     }
 
     if (newNumber !== null) {
-      // Force update on the element text and any nested elements (like <sup> or <span>)
-      ref.textContent = newNumber;
-      const innerElements = ref.querySelectorAll("sup, span");
-      innerElements.forEach(el => el.textContent = newNumber);
+      // Ensure the superscript element exists and force the number
+      let sup = ref.querySelector("sup");
+      if (sup) {
+        sup.textContent = newNumber;
+      } else {
+        ref.innerHTML = "<sup>" + newNumber + "</sup>";
+      }
     }
   });
 }
 
-// Run immediately, on load events, and a few times shortly after to beat Quarto's layout routines
+// Run immediately, on load, and repeatedly to overwrite Quarto's scripts
 document.addEventListener("DOMContentLoaded", deduplicateFootnotes);
 window.addEventListener("load", deduplicateFootnotes);
-setTimeout(deduplicateFootnotes, 100);
-setTimeout(deduplicateFootnotes, 500);
-setTimeout(deduplicateFootnotes, 1000);
+setInterval(deduplicateFootnotes, 500);
 </script>
 
 
