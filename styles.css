@@ -188,14 +188,13 @@ footer.footer a { font-weight: normal; text-decoration: underline; color: var(--
   text-decoration: none;
   font-weight: 800;
   padding: 0 2px;
-  border-radius: 3px;
 }
 
-/* Keeps text navy for contrast on both gold and white backgrounds, adds underline and subtle highlight */
+/* Clean hover state: keeps text navy, forces background to stay transparent, adds underline */
 .footnote-ref:hover { 
   color: var(--navy-blue) !important; 
   text-decoration: underline !important;
-  background-color: rgba(255, 255, 255, 0.3) !important;
+  background-color: transparent !important;
 }
 
 /* Forces the hovered triangle and its popup to the front */
